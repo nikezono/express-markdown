@@ -1,0 +1,26 @@
+{
+  "name": "BlogBox",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "connect-assets": "*",
+    "stylus": "*",
+    "markdown": "*",
+    "mongoose": "*",
+    "underscore": "*",
+    "async": "*"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "supervisor": "*"
+  },
+  "engines": {
+    "node": "0.10.0",
+    "npm": "1.2.12"
+  }
+}

@@ -1,0 +1,17 @@
+extends layout
+block content
+  h1 express-markdown
+  #navigation
+    ul
+    for item in nav
+      li= item
+
+  #content
+    !=content
+
+  #articles
+    if articles
+      p articles
+        ul
+        for item in articles
+          li= item
