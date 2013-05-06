@@ -20,13 +20,13 @@ module.exports = (app,root) ->
   #@TODO コントローラに書くべきではない
   #@TODO mongodbに格納すべき
   #@TODO キャッシュできる
+  #@TODO きたないよ！！！
   app.get '/:folder', (req,res,next) ->
     fs_util.getNav root,"nav",(nav) ->
-      if fs.existsSync(root+"/"+req.params.folder) || fs.existsSync(root+"/"+req.params.folder+".md")
+      if fs.existsSync(root+"/"+req.params.folder)
         if fs.statSync(root+"/"+req.params.folder).isDirectory()
           fs_util.getNav root+"/"+req.params.folder, "sub", (sub) ->
             fs.readFile root+"/"+req.params.folder+"/index.md","utf-8",(err,data) ->
-              res.send "404 Error" if err
               res.render "index",
                 type: "folder"
                 nav: nav
@@ -36,12 +36,14 @@ module.exports = (app,root) ->
                 logo:"#{req.params.folder}の一覧"
                 folder:"#{req.params.folder}"
 
-
-        else if fs.statSync(root+"/"+req.params.folder+".md").isFile()
+      else if fs.existsSync(root+"/"+req.params.folder+".md")
+        if fs.statSync(root+"/"+req.params.folder+".md").isFile()
           fs.readFile root+"/"+req.params.folder+".md","utf-8",(err,data) ->
             res.render "index",
               content:md.toHTML(data)
-              nav:paths
+              nav:nav
+              title:"#{root}:#{req.params.folder}"
+              logo: "#{req.params.folder}"
               type: "file"
               articles : null
       else
