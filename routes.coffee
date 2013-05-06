@@ -26,15 +26,18 @@ module.exports = (app,root) ->
       if fs.existsSync(root+"/"+req.params.folder)
         if fs.statSync(root+"/"+req.params.folder).isDirectory()
           fs_util.getNav root+"/"+req.params.folder, "sub", (sub) ->
-            fs.readFile root+"/"+req.params.folder+"/index.md","utf-8",(err,data) ->
-              res.render "index",
-                type: "folder"
-                nav: nav
-                content: md.toHTML(data)
-                articles: sub
-                title:"#{root}:#{req.params.folder}"
-                logo:"#{req.params.folder}の一覧"
-                folder:"#{req.params.folder}"
+            if fs.existsSync(root+"/"+req.params.folder+"/index.md")
+              fs.readFile root+"/"+req.params.folder+"/index.md","utf-8",(err,data) ->
+                res.render "index",
+                  type: "folder"
+                  nav: nav
+                  content: md.toHTML(data)
+                  articles: sub
+                  title:"#{root}:#{req.params.folder}"
+                  logo:"#{req.params.folder}の一覧"
+                  folder:"#{req.params.folder}"
+            else
+              res.send "404 Error"
 
       else if fs.existsSync(root+"/"+req.params.folder+".md")
         if fs.statSync(root+"/"+req.params.folder+".md").isFile()
