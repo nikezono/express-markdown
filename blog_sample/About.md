@@ -1,6 +1,6 @@
-### index.md
+### About.md
 
-index.mdがレンダリングされる
+About.mdがレンダリングされる
 
 2nd paragraph. *Italic*, **bold**, `monospace`. Itemized lists
 look like:

@@ -1,17 +1,27 @@
 extends layout
 block content
-  h1 express-markdown
-  #navigation
-    ul
-    for item in nav
-      li= item
+  h1= logo
+  h4 powerd by express-markdown
+  p 適当にmarkdown書いて保存するとディレクトリ構造を探査してWebサイトにしてくれるブログエンジン
+  .navbar.navbar-inverse
+    .navbar-inner
+      .container
+        .nav-collapse.collapse
+          ul.nav
+            li
+              a(href="/") Home
+            for item in nav
+              li
+                a(href="#{item}")= item
 
-  #content
-    !=content
-
-  #articles
-    if articles
-      p articles
-        ul
-        for item in articles
-          li= item
+  .span6
+    #content.tile
+      !=content
+  .span3
+    #articles.tile
+      if articles
+        p 記事
+          ul
+          for item in articles
+            li
+              a(href="#{folder}/#{item}")= item

@@ -13,7 +13,7 @@ app.configure ->
   app.set "port", process.env.PORT or 3001
   app.set "views", __dirname + "/views"
   app.set "view engine", "jade"
-  app.set "blog directory","./blog_sample" #Config Directory (ex:Dropbox/blog)
+  app.set "blog directory","blog_sample" #Config Directory (ex:Dropbox/blog)
   app.use express.favicon()
   app.use express.logger("dev")
   app.use express.bodyParser()
