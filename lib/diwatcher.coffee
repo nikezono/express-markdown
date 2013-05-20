@@ -26,7 +26,6 @@ Markdown = (require (path.resolve('models','Markdown'))).Markdown
 exports.init = (root,dbname,callback)->
   console.log "WATCH DIR :#{root}"
   console.log "DB NAME: #{dbname}"
-  mongoose.connect 'mongodb://localhost/'+dbname
 
   #このUpdateのuuidを生成
   update_id = uuid.v4()
@@ -121,11 +120,6 @@ exports.init = (root,dbname,callback)->
 
           #コールバック
           callback dir_list
-
-#ファイルシステムの変更をモデルに対するCRUD操作に置き換える
-exports.update = (root,filename,eventname,previousname) ->
-  console.log "update: #{root}/#{filename}, event:#{eventname}"
-  console.log "renamed. previous: #{previousname}" if previousname
 
 find_markdowns = (root,array,update_id,callback) ->
   async.forEach array, (dir,cb) ->

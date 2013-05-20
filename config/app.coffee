@@ -29,6 +29,11 @@ app.configure ->
 routes = require path.resolve 'config','routes'
 routes app , app.get "watch_dir"
 
+if process.env.NODE_ENV is 'production'
+  mongoose.connect 'mongodb://localhost/express-markdown'
+else
+  mongoose.connect 'mongodb://localhost/express-markdown-dev'
+
 app.configure "development", ->
   app.use express.errorHandler()
 
