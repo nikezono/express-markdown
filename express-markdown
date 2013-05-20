@@ -62,12 +62,9 @@ var app = require(path.resolve('config', 'app'))
 
 function watch(){
 // Watch Direcotry
-  var initializer = require(path.resolve('lib', 'diwatcher'));
+  //var initializer = require(path.resolve('lib', 'diwatcher'));
   var updater = require(path.resolve('lib','diupdater'));
-  initializer.init(process.env.WATCH_DIR,process.env.DBNAME,function(dir_list){
-    console.info("initialize done. will be watch dir: "+dir_list);
-    updater.watch(process.env.WATCH_DIR,process.env.DBNAME,dir_list);
-  });
+  updater.watch(process.env.WATCH_DIR,process.env.DBNAME);
 }
 
 // Cluster Server

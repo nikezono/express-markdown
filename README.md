@@ -12,3 +12,5 @@
 
 ##@TODO
 * キャッシュする
+* lib/di*.coffeeのリファクタリング
+* diwatcherいらない？
