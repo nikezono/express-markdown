@@ -45,7 +45,7 @@ exports.init = (root,dbname,callback)->
   , #option
     upsert:true
   ,(err,root_folder)->
-      console.log "root folder is created:#{root_folder.title}"
+      console.info "root folder is created:#{root_folder.title}"
       console.error err if err
 
       #Rootにレコード追加
@@ -93,18 +93,31 @@ exports.init = (root,dbname,callback)->
           else
             cb()
         , ->
-          console.log "All root/* is created"
+          console.info "All root/* is created"
           # 全ディレクトリに対して探索&レコード作成
           find_markdowns root,dir_list,update_id, ->
-            console.log "markdowns is created"
+            console.log "remove all 'not' referenced record"
             #レコードの探索が終わったら、現在のupdate_idを持たないレコードを削除
+            Markdown.find
+              update_id:
+                $ne:update_id
+            ,(err,markdowns)->
+              console.log "deleted Markdown:#{markdowns}"
             Markdown.remove
               update_id:
                 $ne:update_id
+            ,->
+
+            Folder.find
+              update_id:
+                $ne:update_id
+            ,(err,folders)->
+              console.log "deleted Folder:#{folders}"
 
             Folder.remove
               update_id:
                 $ne:update_id
+            ,->
 
           #コールバック
           callback dir_list
@@ -142,4 +155,5 @@ find_markdowns = (root,array,update_id,callback) ->
         , ->
           cb()
   ,->
-    callback
+    console.info "All markdowns is created"
+    callback()
