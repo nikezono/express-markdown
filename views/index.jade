@@ -16,5 +16,9 @@ block content
 
   .span6
     #content.tile
+      p 作成日時
+        = markdown.created
+      p 編集日時
+        = markdown.updated
       p コンテンツ
-      =markdown.text
+      !=markdown.html

@@ -15,6 +15,7 @@ path  = require 'path'
 async = require 'async'
 fs = require 'fs'
 
+md_extend = require path.resolve('lib', 'marked_extend')
 Folder = (require (path.resolve('models','Folder'))).Folder
 Markdown = (require (path.resolve('models','Markdown'))).Markdown
 
@@ -68,7 +69,6 @@ exports.watch = (root_dir,dbname) ->
           console.log "Markdown #{folder.title}/#{md.title} is deleted."
           md.remove()
 
-      # @TODO
       else if event_type is 'folder_deleted'
         Folder.findOne {title:basename},(err,fd)->
           console.error err if err
@@ -87,20 +87,32 @@ exports.watch = (root_dir,dbname) ->
   watcher.on 'error',(err)->
     console.error err
 
-#@TODO created
 md_update = (folder,basename,article_path)->
-  Markdown.findOneAndUpdate
-  #condition
-    title: basename
-    folder: folder.id
-  , #update
-    title: basename
-    folder: folder.id
-    text: fs.readFileSync(article_path)
-    updated: Date.now()
-    created: @created || Date.now()
-  , #options
-    upsert: true
-  ,(err,markdown)->
-    console.error err if err
-    console.log "Markdown #{folder.title}/#{markdown.title} is updated."
+  md_extend.tohtml fs.readFileSync(article_path,"utf-8"),(html)->
+    Markdown.findOne
+    #condition
+      title: basename
+      folder: folder.id
+    , (err,md)->
+      console.error err if err
+      if md
+        md.update#update
+          title: basename
+          folder: folder.id
+          text: fs.readFileSync(article_path)
+          updated: Date.now()
+          html: html
+        ,(err,num,raw)->
+          console.error err if err
+          console.log "Markdown #{folder.title}/#{md.title} is updated in #{md.updated}"
+      else if !err
+        Markdown.create
+          created: Date.now()
+          title: basename
+          folder: folder.id
+          text: fs.readFileSync(article_path)
+          updated: Date.now()
+          html :html
+        ,(err,md)->
+          console.error err if err
+          console.log "Markdown #{folder.title}/#{md.title} is updated in #{md.updated}"
