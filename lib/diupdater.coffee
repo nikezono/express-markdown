@@ -87,7 +87,7 @@ exports.watch = (root_dir,dbname) ->
   watcher.on 'error',(err)->
     console.error err
 
-
+#@TODO created
 md_update = (folder,basename,article_path)->
   Markdown.findOneAndUpdate
   #condition
@@ -97,6 +97,8 @@ md_update = (folder,basename,article_path)->
     title: basename
     folder: folder.id
     text: fs.readFileSync(article_path)
+    updated: Date.now()
+    created: @created || Date.now()
   , #options
     upsert: true
   ,(err,markdown)->

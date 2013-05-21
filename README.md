@@ -12,5 +12,7 @@
 
 ##@TODO
 * キャッシュする
-* lib/di*.coffeeのリファクタリング
-* diwatcherいらない？
+* preでhookしてmarkdownizeできてない
+* gyazz記法
+* css,js
+* /:folder のコントローラ,view

@@ -32,11 +32,12 @@ MarkdownSchema.statics.findByTitle  = (folder, title, done) ->
     done err, article
 
 #@TODO実行されてない？
-MarkdownSchema.pre 'save', (done) ->
+MarkdownSchema.pre 'save', (done)->
+  console.log "fook"
   md_extend @text, (html,image_url) ->
     @thumbnail = image_url
     @html = html
     @updated = Date.now()
-    return done null
+    done()
 
 exports.Markdown = Mongo.model 'Markdown', MarkdownSchema
