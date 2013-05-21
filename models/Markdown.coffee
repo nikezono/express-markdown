@@ -31,6 +31,7 @@ MarkdownSchema.statics.findByTitle  = (folder, title, done) ->
     console.error err if err
     done err, article
 
+#@TODO実行されてない？
 MarkdownSchema.pre 'save', (done) ->
   md_extend @text, (html,image_url) ->
     @thumbnail = image_url
