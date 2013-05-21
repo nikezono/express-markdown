@@ -55,21 +55,21 @@ exports.watch = (root_dir,dbname) ->
     basename = path.basename(article_path,".md")
     dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
 
-    event_type = 'file_changed' if extname is '.md'
-    event_type = 'folder_changed' if extname is ''
+    event_type = 'file_deleted' if extname is '.md'
+    event_type = 'folder_deleted' if extname is ''
 
     console.log "ext:#{extname} base:#{basename} dir:#{dirname}. event_type: #{event_type}"
 
     Folder.findOne {title:dirname}, (err,folder)->
       console.error err if err
-      if event_type is 'file_changed'
+      if event_type is 'file_deleted'
         Markdown.findOne {title:basename,folder:folder.id},(err,md)->
           console.error err if err
           console.log "Markdown #{folder.title}/#{md.title} is deleted."
           md.remove()
 
       # @TODO
-      else if event_type is 'folder_changed'
+      else if event_type is 'folder_deleted'
         Folder.findOne {title:basename},(err,fd)->
           console.error err if err
           if fd
