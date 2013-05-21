@@ -41,7 +41,7 @@ if (argv.h) {
   console.log('  -e "env"        set application environment (development default)');
   console.log('  -m "interval"   report memory usage info (5 default)');
   console.log('  -w "watch"      set watch dirrectory (./blog_sample default)');
-  console.log('  -d "dbname"     set mongoDB dbname');
+  console.log('  -a "appname"    set application name("express-markdown" default');
   console.log('  -h              show this message');
   process.exit(1);
 }
@@ -51,7 +51,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || argv.e || argv.env || 'developmen
 process.env.PORT = process.env.PORT || argv.p || argv.port || 3000;
 process.env.FORK = process.env.FORK || argv.f || argv.FORK || cpus;
 process.env.WATCH_DIR = process.env.WATCH_DIR || argv.w || argv.watch || 'blog_sample';
-process.env.DBNAME = process.env.DBNAME || argv.d || argv.dbname || 'express-markdown';
+process.env.APP_NAME = process.env.APP_NAME || argv.a || argv.appname || 'express-markdown';
 reportMemoryUsageInterval = argv.m || 5
 
 // Main Application

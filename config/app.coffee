@@ -16,6 +16,7 @@ app.configure ->
   app.set "models", require.all path.resolve 'models'
   app.set "views", path.resolve "views"
   app.set "view engine", "jade"
+  app.set "app_name", process.env.APP_NAME || 'express-markdown'
   app.set "watch_dir", process.env.WATCH_DIR #Config Directory (ex:Dropbox/blog)
   app.use express.favicon()
   app.use express.logger("dev")

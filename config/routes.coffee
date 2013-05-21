@@ -1,22 +1,26 @@
 ###
 
+Router
 
 ###
 
 async = require 'async'
 path = require 'path'
+fs = require 'fs'
+
+Folder = (require (path.resolve('models','Folder'))).Folder
+Markdown = (require (path.resolve('models','Markdown'))).Markdown
+typer = require path.resolve 'helper', 'typer'
 
 module.exports = (app,root) ->
 
-  Markdown = (app.get 'models').Markdown
-  Folder = (app.get 'models').Folder
-
   # index
   app.get '/', (req,res,next) ->
-    findArticle 'root', null,(nav,markdown)->
+    getArticle 'root',null, (results)->
       res.render 'index',
-        nav:nav
-        markdown:markdown
+        title: app.get("app_name")
+        markdown:results[0]
+        nav:results[1]
 
   # Folder or Article
   app.get '/:folder', (req,res,next) ->
@@ -25,36 +29,60 @@ module.exports = (app,root) ->
 
   # Article
   app.get '/:folder/:filename', (req,res,next) ->
+    getArticle req.params.folder,req.params.filename,(results)->
+      res.render 'index',
+        title: app.get("app_name")
+        markdown:results[0]
+        nav:results[1]
 
-    res.render 'article'
 
-findArticle = (foldername,filename,callback)->
-      #ルートディレクトリを取得
-    Folder.findOne {title:foldername},(err,root_folder)->
-      #@TODO
-      async.parallel [->
-        #記事を取得
-        Markdown.findOne
-          title: filename || folder.index
-          folder:folder.id
-        ,(err,markdown)->
+getArticle = (folder,filename,callback)->
+  async.parallel [(cb)->
+    findArticle folder,filename,(markdown)->
+      cb(null,markdown)
+  ,(cb)->
+    findNavigation process.env.WATCH_DIR, (nav)->
+      cb(null,nav)
+  ],(err,results)->
+    console.log results
+    callback results
 
-      , getNavigation folder.title,(nav)->
+getList = ()->
 
-      ],(err,results)->
-        callback results.nav,results.markdown
+findArticle = (foldername,filename,callback) ->
+    #ルートディレクトリを取得
+  Folder.findOne {title:foldername},(err,root_folder)->
+    #記事を取得
+    Markdown.findOne
+      title: filename || root_folder.index
+      folder:root_folder.id
+    ,(err,markdown)->
+      callback markdown
 
-findList = (foldername,callback)->
+findList = (foldername,callback) ->
   folder_path = path.resolve(app.get("watch_dir"),foldername)
   if fs.statSync(folder_path).isDirectory()
     console.log "aaa"
   else if fs.statSync(folder_path).isFile() and path.extname(folder_path) is '.md'
     console.log "bbb"
 
-getNavigation = (foldername,callback)->
-  Folder.findOne {title:foldername},(err,folder)->
-    console.error err if err
-    Markdown.find {folder:folder.id},(err,mds)->
+findNavigation = (root_dir,callback) ->
+  nav = []
+  async.parallel [(cb)->
+    Folder.find {title:{$ne:'root'}},(err,fds)->
       console.error err if err
-      callback mds
-
+      async.forEach fds, (fd,_cb)->
+        nav.push fd.title
+        _cb()
+      ,->
+        cb(null,null)
+  ,(cb)->
+    Folder.findOne {title:'root'},(err,folder)->
+      Markdown.find {folder:folder.id},(err,mds)->
+        async.forEach mds, (md,_cb)->
+          nav.push md.title
+          _cb()
+        ,->
+          cb(null,null)
+  ],->
+    callback nav
