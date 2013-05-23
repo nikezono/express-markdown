@@ -44,7 +44,6 @@ getArticle = (folder,filename,callback)->
     findNavigation process.env.WATCH_DIR, (nav)->
       cb(null,nav)
   ],(err,results)->
-    console.log results
     callback results
 
 getList = ()->

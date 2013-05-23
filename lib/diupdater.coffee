@@ -15,6 +15,7 @@ path  = require 'path'
 async = require 'async'
 fs = require 'fs'
 
+helper = require path.resolve 'helper', 'typer'
 md_extend = require path.resolve('lib', 'marked_extend')
 Folder = (require (path.resolve('models','Folder'))).Folder
 Markdown = (require (path.resolve('models','Markdown'))).Markdown
@@ -34,7 +35,7 @@ exports.watch = (root_dir,dbname) ->
     basename = path.basename(article_path,".md")
     dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
     #Markdownファイルの追加時にFolderもFindAndUpdate(upsert)
-    if fs.statSync(article_path).isFile() and path.extname(article_path) is '.md'
+    if helper.isMarkdown(article_path)
       Folder.findOneAndUpdate {title: dirname},{title: dirname},{upsert: true}, (err,folder)->
         console.log "Folder #{folder.title} is updated"
         md_update folder,basename,article_path
@@ -44,7 +45,7 @@ exports.watch = (root_dir,dbname) ->
     basename = path.basename(article_path,".md")
     dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
     #changeイベントはファイルにしか発生しない
-    if path.extname(article_path) is '.md'
+    if helper.isMarkdown(article_path)
       Folder.findOne {title: dirname}, (err,folder)->
         console.error err if err
         md_update folder,basename,article_path

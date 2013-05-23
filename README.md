@@ -12,7 +12,7 @@
 
 ##@TODO
 * キャッシュする
-* preでhookしてmarkdownizeできてない
+*　たくさんヘルパ作ってリファクタリング
 * gyazz記法
 * css,js
 * /:folder のコントローラ,view
