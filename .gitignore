@@ -1,5 +1,7 @@
 .DS_Store
 *.swp
 
-public
+public/img
+public/css
+public/js
 node_modules

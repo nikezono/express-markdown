@@ -57,6 +57,8 @@ module.exports = (app) ->
 getArticle = (folder,filename,callback)->
   async.parallel [(cb)->
     findArticle folder,filename,(markdown)->
+      markdown.meta.views += 1
+      markdown.save()
       cb(null,markdown)
   ,(cb)->
     findNavigation process.env.WATCH_DIR, (nav)->
@@ -106,7 +108,7 @@ findNavigation = (root_dir,callback) ->
     Folder.findOne {title:'root'},(err,folder)->
       Markdown.find {folder:folder.id},(err,mds)->
         async.forEach mds, (md,_cb)->
-          nav.push md.title
+          nav.push md.title unless md.title is 'index'
           _cb()
         ,->
           cb(null,null)

@@ -12,6 +12,7 @@ html
 
     link(rel='stylesheet', href='/vendor/bootstrap.css')
     link(rel='stylesheet', href='/vendor/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/vendor/figcaption.css')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
     // User Library
@@ -28,6 +29,6 @@ html
               a(href="/") Home
             for item in nav
               li
-                a(href="#{item}")= item
+                a(href="/#{item}")= item
         .span10
           block content

@@ -23,8 +23,7 @@ MarkdownSchema = new Mongo.Schema
   created: { type: Date, default: Date.now() }
   updated: { type: Date, default: Date.now() }
   meta:
-    votes: {type: Number, default: 0}
-    favs: {type: Number, default: 0}
+    views: {type: Number, default: 0}
 
 MarkdownSchema.statics.findByTitle  = (folder, title, done) ->
   @findOne { folder: folderid, title: title }, {}, { populate: 'Folder' }, (err, article) ->
