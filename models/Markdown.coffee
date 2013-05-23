@@ -17,25 +17,25 @@ MarkdownSchema = new Mongo.Schema
   title: { type: String, index: yes }
   folder: { type: Mongo.Schema.Types.ObjectId, ref: 'folder' }
   html: { type: String, default: '' }
+  thumbnail: { type: String, default: '/img/default.jpg'}
   text: { type: String, default: '' }
-  thumbnail: {type: String, default: ''}
   update_id: { type: String, default: '' }
   created: { type: Date, default: Date.now() }
   updated: { type: Date, default: Date.now() }
   meta:
-    votes: Number
-    favs: Number
+    votes: {type: Number, default: 0}
+    favs: {type: Number, default: 0}
 
 MarkdownSchema.statics.findByTitle  = (folder, title, done) ->
   @findOne { folder: folderid, title: title }, {}, { populate: 'Folder' }, (err, article) ->
     console.error err if err
     done err, article
 
-#@TODO実行されてない？
+#
+# productionだと実行されない devだと実行される
 MarkdownSchema.pre 'save', (done)->
   console.log "fook"
-  md_extend @text, (html,image_url) ->
-    @thumbnail = image_url
+  md_extend.tohtml @text, (html) ->
     @html = html
     @updated = Date.now()
     done()

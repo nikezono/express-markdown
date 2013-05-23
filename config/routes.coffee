@@ -10,9 +10,11 @@ fs = require 'fs'
 
 Folder = (require (path.resolve('models','Folder'))).Folder
 Markdown = (require (path.resolve('models','Markdown'))).Markdown
-typer = require path.resolve 'helper', 'typer'
+helper = require path.resolve 'helper', 'typer'
 
-module.exports = (app,root) ->
+module.exports = (app) ->
+
+  root = app.get "watch_dir"
 
   # index
   app.get '/', (req,res,next) ->
@@ -21,11 +23,26 @@ module.exports = (app,root) ->
         title: app.get("app_name")
         markdown:results[0]
         nav:results[1]
+        moment: require 'moment'
 
   # Folder or Article
   app.get '/:folder', (req,res,next) ->
+    if helper.isMarkdown(path.resolve(root,req.params.folder+'.md'))
+      getArticle 'root',req.params.folder, (results)->
+        res.render  'index',
+          title: app.get("app_name")
+          markdown:results[0]
+          nav:results[1]
+          moment: require 'moment'
 
-    res.render 'list'
+    else if helper.isFolder(path.resolve(root,req.params.folder))
+      getList req.params.folder, (results)->
+        res.render 'list',
+          title: app.get("app_name")
+          folder:results.folder
+          markdowns:results.markdowns
+          nav:results.nav
+          moment: require 'moment'
 
   # Article
   app.get '/:folder/:filename', (req,res,next) ->
@@ -34,6 +51,7 @@ module.exports = (app,root) ->
         title: app.get("app_name")
         markdown:results[0]
         nav:results[1]
+        moment: require 'moment'
 
 
 getArticle = (folder,filename,callback)->
@@ -46,7 +64,23 @@ getArticle = (folder,filename,callback)->
   ],(err,results)->
     callback results
 
-getList = ()->
+getList = (foldername,callback)->
+  results = new Object
+  async.parallel [(cb)->
+    Folder.findOne {title:foldername},(err,folder)->
+      console.error err if err
+      results.folder = folder
+      Markdown.find {folder:folder.id},(err,mds)->
+        console.error err if err
+        results.markdowns = mds
+        cb(null)
+  ,(cb)->
+    findNavigation process.env.WATCH_DIR, (nav)->
+      results.nav = nav
+      cb(null)
+  ],(err)->
+    console.error err if err
+    callback results
 
 findArticle = (foldername,filename,callback) ->
     #ルートディレクトリを取得
@@ -57,13 +91,6 @@ findArticle = (foldername,filename,callback) ->
       folder:root_folder.id
     ,(err,markdown)->
       callback markdown
-
-findList = (foldername,callback) ->
-  folder_path = path.resolve(app.get("watch_dir"),foldername)
-  if fs.statSync(folder_path).isDirectory()
-    console.log "aaa"
-  else if fs.statSync(folder_path).isFile() and path.extname(folder_path) is '.md'
-    console.log "bbb"
 
 findNavigation = (root_dir,callback) ->
   nav = []

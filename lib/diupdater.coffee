@@ -89,7 +89,7 @@ exports.watch = (root_dir,dbname) ->
     console.error err
 
 md_update = (folder,basename,article_path)->
-  md_extend.tohtml fs.readFileSync(article_path,"utf-8"),(html)->
+  md_extend.tohtml fs.readFileSync(article_path,"utf-8"),(html,image_path)->
     Markdown.findOne
     #condition
       title: basename
@@ -101,6 +101,7 @@ md_update = (folder,basename,article_path)->
           title: basename
           folder: folder.id
           text: fs.readFileSync(article_path)
+          thumbnail: image_path || '/img/default.jpg'
           updated: Date.now()
           html: html
         ,(err,num,raw)->
@@ -111,6 +112,7 @@ md_update = (folder,basename,article_path)->
           created: Date.now()
           title: basename
           folder: folder.id
+          thumbnail: image_path || '/img/default.jpg'
           text: fs.readFileSync(article_path)
           updated: Date.now()
           html :html

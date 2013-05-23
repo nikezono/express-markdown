@@ -1,6 +1,5 @@
 require.all = require 'direquire'
 express = require "express"
-http = require "http"
 path = require "path"
 fs = require "fs"
 
@@ -34,7 +33,7 @@ app.configure ->
   app.use app.router
 
 routes = require path.resolve 'config','routes'
-routes app , app.get "watch_dir"
+routes app
 
 if process.env.NODE_ENV is 'production'
   mongoose.connect 'mongodb://localhost/express-markdown'

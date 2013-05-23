@@ -1,3 +1,18 @@
 extends layout
 block content
+  p Sort:
+  ul
+    li.sort(data-sort='data-updated', data-order='desc') updated-desc
+    li.sort(data-sort='data-updated', data-order='asc') updated-asc
+    li.sort(data-sort='data-created', data-order='desc') created-desc
+    li.sort(data-sort='data-created', data-order='asc') created-asc
+    li.sort(data-sort='data-favs', data-order='desc') favs-desc
+    li.sort(data-sort='data-favs', data-order='asc') favs-asc
 
+  ul#Grid
+    for md in markdowns
+      li.mix(data-favs= md.meta.favs,data-updated= moment(md.updated).format('YYYYMMDDHHmmss'), data-created=moment(md.created).format('YYYYMMDDHHmmss'))
+        a(href='/#{folder.title}/#{md.title}')
+          img(src=md.thumbnail)
+          br
+          = md.title

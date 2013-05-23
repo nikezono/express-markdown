@@ -1,10 +1,9 @@
 extends layout
 block content
-  .span6
-    #content.tile
-      p 作成日時
-        = markdown.created
-      p 編集日時
-        = markdown.updated
-      p コンテンツ
-      !=markdown.html
+  .well
+    .pull-right
+      p 作成日時:
+        = moment(markdown.created).format('MMMM Do YYYY, h:mm:ss a')
+      p 更新日時:
+        = moment(markdown.updated).format('MMMM Do YYYY, h:mm:ss a')
+    !=markdown.html

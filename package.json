@@ -27,6 +27,7 @@
     "markdown": "*",
     "mongoose": "*",
     "underscore": "*",
+    "nib": "*",
     "st": "*",
     "underscore.string": "*",
     "async": "*"

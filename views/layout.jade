@@ -4,31 +4,30 @@ html
     title= title
 
     // bundle
-    !=js('/vendor/jquery-2.0.0.min.js')
-    //!=js('/vendor/underscore-min.js')
-    !=js('/vendor/bootstrap.min.js')
+    script(src='/vendor/jquery-2.0.0.min.js')
+    script(src='/vendor/underscore-min.js')
+    script(src='/vendor/bootstrap.min.js')
+    script(src='/vendor/moment.min.js')
+    script(src='/vendor/mixitup-1.5.3/jquery.mixitup.min.js')
 
-    !=css('/vendor/bootstrap.css')
-    !=css('/vendor/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/vendor/bootstrap.css')
+    link(rel='stylesheet', href='/vendor/bootstrap-responsive.min.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
     // User Library
     !=js('application')
     !=css('style')
 
   body
-    .container
-      .row
-        .span4
-          .navbar.navbar-inverse
-            .navbar-inner
-              .container
-                .nav-collapse.collapse
-                  ul.nav.nav-pills.nav-stacked
-                    li
-                      a(href="/") Home
-                    for item in nav
-                      li
-                        a(href="#{item}")= item
-        .span8
-          h1= title
+    .container-fluid
+      .row-fluid
+        .span2
+          h4= title
+          ul.nav.nav-pills.nav-stacked
+            li
+              a(href="/") Home
+            for item in nav
+              li
+                a(href="#{item}")= item
+        .span10
           block content

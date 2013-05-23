@@ -3,10 +3,16 @@ fs = require 'fs'
 async = require 'async'
 
 isMarkdown = (target_path)->
-  return (fs.statSync(target_path).isFile() and path.extname(target_path) is '.md')
+  try
+    return (fs.statSync(target_path).isFile() and path.extname(target_path) is '.md')
+  catch error
+    return false
 
 isFolder = (target_path)->
-  return (fs.statSync(target_path).isDirectory() and path.extname(target_path) is '')
+  try
+    return (fs.statSync(target_path).isDirectory() and path.extname(target_path) is '')
+  catch error
+    return false
 
 sliceMarkdownAndFolder = (root,array,callback)->
   res = []
