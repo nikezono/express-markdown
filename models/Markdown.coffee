@@ -34,7 +34,7 @@ MarkdownSchema.statics.findByTitle  = (folder, title, done) ->
 #
 # productionだと実行されない devだと実行される
 MarkdownSchema.pre 'save', (done)->
-  console.log "fook"
+  console.log "pre hook"
   md_extend.tohtml @text, (html) ->
     @html = html
     @updated = Date.now()

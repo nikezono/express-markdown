@@ -1,6 +1,6 @@
 ### Works/hoge.md
 
-Works/hoge.mdがレンダリングされる
+Works/moge.mdがレンダリングされる
 
 2nd paragraph. *Italic*, **bold**, `monospace`. Itemized lists
 look like:

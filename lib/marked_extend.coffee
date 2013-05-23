@@ -16,5 +16,4 @@ md = (require 'markdown').markdown
 
 exports.tohtml = (text,done) ->
   html = md.toHTML text
-  image_url = "" # pathを抽出してpublic/images/:foldername/:filenameとして保存する
   done html

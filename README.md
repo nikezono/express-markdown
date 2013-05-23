@@ -11,8 +11,5 @@
            			 hoge.md # get "/Works/hoge"
 
 ##@TODO
-* キャッシュする
-*　たくさんヘルパ作ってリファクタリング
+* リファクタリング
 * gyazz記法
-* css,js
-* /:folder のコントローラ,view
