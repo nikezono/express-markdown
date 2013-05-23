@@ -3,11 +3,11 @@
 * Markdown記法でWebサイトを作れる
 * 指定されたディレクトリをWebサイトのリポジトリとする
 * フォルダ構造をナビゲーションにする
-* 記事名が与えられないときはindex.mdをレンダリングする
+* 記事と同じフォルダに同じファイル名の画像ファイルを置くと、サムネイルになる
 
 ###example
     /root/ index.md # get "/"
-           Works/    # get "/Works" and render "Works/index.md"
+           Works/    # get "/Works"
            			 hoge.md # get "/Works/hoge"
 
 ##@TODO
