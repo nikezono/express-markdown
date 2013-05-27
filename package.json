@@ -24,7 +24,7 @@
     "connect-assets": "*",
     "stylus": "*",
     "optimist": "*",
-    "markdown": "*",
+    "marked": "*",
     "mongoose": "*",
     "underscore": "*",
     "nib": "*",

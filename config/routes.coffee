@@ -16,6 +16,9 @@ module.exports = (app) ->
 
   root = app.get "watch_dir"
 
+  # RSS
+ # app.get '/feed/rss',
+
   # index
   app.get '/', (req,res,next) ->
     getArticle 'root',null, (results)->

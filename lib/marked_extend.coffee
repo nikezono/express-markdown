@@ -12,8 +12,20 @@
 
 ###
 
-md = (require 'markdown').markdown
+marked = require 'marked'
+
+marked.setOptions
+  gfm: true
+  tables: true
+  breaks: true
+  pedantic: false
+  sanitize: false
+  smartLists: true
+  langPrefix: "language-"
+  highlight: (code, lang) ->
+    return highlighter.javascript(code)  if lang is "js"
+    code
 
 exports.tohtml = (text,done) ->
-  html = md.toHTML text
+  html = marked text
   done html

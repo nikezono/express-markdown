@@ -9,6 +9,14 @@ look like:
   * that one
   * the other one
 
+
+<a href='/'>
+  トップページ
+</a>
+
+<b>strong</b>
+<em>em</em>
+
 Note that --- not considering the asterisk --- the actual text
 content starts at 4-columns in.
 
