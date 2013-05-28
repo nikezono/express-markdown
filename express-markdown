@@ -60,15 +60,14 @@ var app = require(path.resolve('config', 'app'))
   , port = app.get('port')
   , exec = require('child_process').exec;
 
-function watch(){
-// Watch Direcotry
-  var updater = require(path.resolve('lib','diupdater'));
-  updater.watch(process.env.WATCH_DIR);
-}
+// Directory Watcher
+var diupdater = require(path.resolve('lib','diupdater')).diupdater(app);
 
 // Cluster Server
 if (cluster.isMaster) {
-  watch();
+
+  diupdater.watch(process.env.WATCH_DIR);
+
   console.log('==', 'Express has left the station on', port, 'for', env);
   var i = 0;
   for (i = 0; i < process.env.FORK; i++) { cluster.fork(); }

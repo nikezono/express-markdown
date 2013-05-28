@@ -17,6 +17,7 @@
     "node-uuid": "*",
     "chokidar": "*",
     "moment": "*",
+    "direquire": "*",
     "coffee-script": "*",
     "hooker": "*",
     "express": "*",

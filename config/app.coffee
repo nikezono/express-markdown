@@ -21,6 +21,9 @@ app.configure ->
   app.set "port", process.env.PORT or 3000
   app.set "views", path.resolve "views"
   app.set "view engine", "jade"
+  app.set 'events', require.all path.resolve 'events'
+  app.set 'models', require.all path.resolve 'models'
+  app.set 'helper', require.all path.resolve 'helper'
   app.set "app_name", process.env.APP_NAME || 'express-markdown'
   app.set "watch_dir", process.env.WATCH_DIR || 'blog_sample' #Config Directory (ex:Dropbox/blog)
   app.use express.favicon path.resolve 'public', 'favicon.ico'
