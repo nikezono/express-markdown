@@ -92,7 +92,7 @@ findArticle = (foldername,filename,callback) ->
   Folder.findOne {title:foldername},(err,root_folder)->
     #記事を取得
     Markdown.findOne
-      title: filename || root_folder.index
+      title: filename || 'index'
       folder:root_folder.id
     ,(err,markdown)->
       callback markdown

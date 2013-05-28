@@ -2,9 +2,6 @@
 
 index.mdがレンダリングされる
 
-Markdown記法
----
-
  *Italic*, **bold**, `monospace`.
 
 リスト

@@ -1,15 +1,12 @@
 ###
-@title  フォルダ名。再帰的探索しないためunique
-@index  インデックスとして評価するページ名
-@markeds  MarkdownModelのObjectId
+@title  [String] フォルダ名(unique)
+@markeds  [Array] MarkdownModelのObjectId
 ###
 
 Mongo = require 'mongoose'
 
 FolderSchema = new Mongo.Schema
   title: { type: String, unique: yes, index: yes }
-  index: { type: String, default: 'index' }
-  update_id: { type: String, default: '' }
   markeds: [{ type: Mongo.Schema.Types.ObjectId, ref: 'Markdown' }]
 
 FolderSchema.statics.findByTitle = (title, done) ->

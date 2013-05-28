@@ -1,25 +1,24 @@
 ###
-@title  ページ名。unique
-@folder 親フォルダ
-@html   コンパイル済み
-@text   未コンパイルMarkdown
-@view   いつ見られたか
-  @user   username、デフォルト値はanonymous
-  @date   Date.now()
+@title       [String]   ページ名
+@folder      [ObjectId] 親フォルダ(id)
+@text        [String]   ファイル内容(markdown)
+@html        [String]   コンパイル済みhtml
+@thumbnail   [String]   サムネイル(アドレス)
+@updated     [Date]     更新日時
+@created     [Date]     作成日時
+@meta
+  @views     閲覧回数
 ###
 
 path = require 'path'
 Mongo = require 'mongoose'
 
-md_extend = require path.resolve 'lib','marked_extend'
-
 MarkdownSchema = new Mongo.Schema
   title: { type: String, index: yes }
   folder: { type: Mongo.Schema.Types.ObjectId, ref: 'folder' }
+  text: { type: String, default: '' }
   html: { type: String, default: '' }
   thumbnail: { type: String, default: '/img/default.jpg'}
-  text: { type: String, default: '' }
-  update_id: { type: String, default: '' }
   created: { type: Date, default: Date.now() }
   updated: { type: Date, default: Date.now() }
   meta:
