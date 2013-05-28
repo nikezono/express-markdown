@@ -1,23 +1,10 @@
 extends layout
 block content
-  p Sort:
-  ul
-    .span6
-      li.sort(data-sort='data-updated', data-order='desc') updated-desc
-      li.sort(data-sort='data-updated', data-order='asc') updated-asc
-      li.sort(data-sort='data-created', data-order='desc') created-desc
-      li.sort(data-sort='data-created', data-order='asc') created-asc
-    .span6
-      li.sort(data-sort='data-views', data-order='desc') views-desc
-      li.sort(data-sort='data-views', data-order='asc') views-asc
-
   .span12
-    ul#Grid
-      for md in markdowns
-        li.mix(data-views= md.meta.views,data-updated= moment(md.updated).format('YYYYMMDDHHmmss'), data-created=moment(md.created).format('YYYYMMDDHHmmss'))
-          a(href='/#{folder.title}/#{md.title}')
-            figure.cap-bot
-              img(src=md.thumbnail)
-              figcaption
-                h4= md.title
-                p= moment(md.updated).format('YYYY/MM/DD')+ " updated. "+md.meta.views+" views"
+    for md in markdowns
+      div.span3(data-views= md.meta.views,data-updated= moment(md.updated).format('YYYYMMDDHHmmss'), data-created=moment(md.created).format('YYYYMMDDHHmmss'))
+        a(href='/#{folder.title}/#{md.title}')
+          img(src=md.thumbnail)
+          br
+          h4= md.title
+          p= moment(md.updated).format('YYYY/MM/DD')+ " updated. "+md.meta.views+" views"

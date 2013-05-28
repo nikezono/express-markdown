@@ -19,11 +19,10 @@ app = express()
 app.configure ->
   app.set 'env', process.env.NODE_ENV || 'development'
   app.set "port", process.env.PORT or 3000
-  app.set "models", require.all path.resolve 'models'
   app.set "views", path.resolve "views"
   app.set "view engine", "jade"
   app.set "app_name", process.env.APP_NAME || 'express-markdown'
-  app.set "watch_dir", process.env.WATCH_DIR #Config Directory (ex:Dropbox/blog)
+  app.set "watch_dir", process.env.WATCH_DIR || 'blog_sample' #Config Directory (ex:Dropbox/blog)
   app.use express.favicon path.resolve 'public', 'favicon.ico'
   app.use express.logger("dev")
   app.use express.bodyParser()

@@ -4,7 +4,6 @@
   ディレクトリをwatchして変更があったときにがあったときにレコードを変更する
 
   @root_dir watchするルートディレクトリ(絶対パスに展開済み)
-  @dbname   watchするDBの名前
     ex: [/hoge/Works, /hoge/Hide]
   @callback コールバック
 
@@ -20,7 +19,7 @@ md_extend = require path.resolve('lib', 'marked_extend')
 Folder = (require (path.resolve('models','Folder'))).Folder
 Markdown = (require (path.resolve('models','Markdown'))).Markdown
 
-exports.watch = (root_dir,dbname) ->
+exports.watch = (root_dir) ->
 
   watcher = chokidar.watch root_dir#,
    # ignored:

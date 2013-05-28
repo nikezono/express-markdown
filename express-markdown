@@ -64,7 +64,7 @@ function watch(){
 // Watch Direcotry
   //var initializer = require(path.resolve('lib', 'diwatcher'));
   var updater = require(path.resolve('lib','diupdater'));
-  updater.watch(process.env.WATCH_DIR,process.env.DBNAME);
+  updater.watch(process.env.WATCH_DIR);
 }
 
 // Cluster Server
