@@ -22,9 +22,10 @@ exports.dbcleaner = (app)->
           console.log "index is checked : #{index.checked}"
           cb()
     ,(cb)->
-      removeUnlinked root_dir, null, checked,(folders)->
+      removeUnlinked root_dir, null, checked,true,(folders)->
         async.forEach folders, (folder,_cb)->
-          removeUnlinked root_dir,folder,checked,->
+          console.log "root:#{root_dir},folder:#{folder}"
+          removeUnlinked root_dir,folder,checked,false,->
             console.log "subdirectory #{folder} is checked."
             _cb()
         ,->
@@ -51,14 +52,14 @@ exports.dbcleaner = (app)->
     ]
 
     #private
-    removeUnlinked = (root,foldername='',checked,callback)->
-      files = fs.readdirSync path.resolve(root,foldername)
+    removeUnlinked = (root,foldername='',checked,recursive,callback)->
       console.log "#{root}/#{foldername} is checking now."
+      files = fs.readdirSync path.resolve(root,foldername)
       folders = []
-      root_dir = path.resolve root,foldername
-      typer.sliceMarkdownAndFolder root_dir,files, (sliced)->
+      search_dir = path.resolve root,foldername
+      typer.sliceMarkdownAndFolder search_dir,files, (sliced)->
         async.forEach sliced, (file,cb)->
-          pth = path.normalize("#{root}/#{foldername}/#{file}")
+          pth = path.resolve root,foldername,file
           console.log "#{pth} is checking now..."
           if typer.isMarkdown(pth+".md")
             fname = (if (foldername is '') then "root" else foldername)

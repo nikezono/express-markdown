@@ -19,6 +19,8 @@ exports.diupdater = (app) ->
   Folder = app.get("models").Folder
   Markdown = app.get("models").Markdown
   md_extend = require path.resolve 'lib','marked_extend'
+  root_dirs = app.get("watch_dir").split(path.sep)
+  root_name = root_dirs[root_dirs.length-1]
 
   watch: (root_dir)->
     watcher = chokidar.watch root_dir, {ignored:/^\./}
@@ -28,9 +30,10 @@ exports.diupdater = (app) ->
     # MarkdownがAddされたとき、FolderをfindOneAndUpdateする.
 
     watcher.on 'add', (article_path)->
-      console.info "#{article_path} is added"
       basename = path.basename(article_path,".md")
-      dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
+      dirs = path.dirname(article_path).split(path.sep)
+      dirname = if dirs[dirs.length-1] is root_name then "root" else dirs[dirs.length-1]
+      console.info "#{article_path} is added in #{dirname}"
       #Markdownファイルの追加時にFolderもFindAndUpdate(upsert)
       if typer.isMarkdown(article_path)
         Folder.findOneAndUpdate {title: dirname},{title: dirname},{upsert: true}, (err,folder)->
@@ -52,7 +55,8 @@ exports.diupdater = (app) ->
     watcher.on 'change', (article_path)->
       console.info "#{article_path} is changed"
       basename = path.basename(article_path,".md")
-      dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
+      dirs = path.dirname(article_path).split(path.sep)
+      dirname = if dirs[dirs.length-1] is root_name then "root" else dirs[dirs.length-1]
       #changeイベントはファイルにしか発生しない
       if typer.isMarkdown(article_path)
         Folder.findOne {title: dirname}, (err,folder)->
@@ -75,7 +79,8 @@ exports.diupdater = (app) ->
       console.info "#{article_path} is unlinked."
       extname = path.extname(article_path)
       basename = path.basename(article_path,".md")
-      dirname = (path.dirname(article_path).split(path.sep))[1] || 'root'
+      dirs = path.dirname(article_path).split(path.sep)
+      dirname = if dirs[dirs.length-1] is root_name then "root" else dirs[dirs.length-1]
 
       event_type = 'file_deleted' if extname is '.md'
       event_type = 'folder_deleted' if extname is ''

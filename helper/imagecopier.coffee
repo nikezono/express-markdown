@@ -31,6 +31,9 @@ exports.imagecopier = ->
         image_path = dest
         cb(null)
     ],(err,results)->
+      image_paths = image_path.split(path.sep)
+      image_paths[image_paths.length-1] = encodeURIComponent(image_paths[image_paths.length-1])
+      image_path = image_paths.join(path.sep)
       console.log "Destination path:#{image_path}"
       callback image_path
 
@@ -45,7 +48,7 @@ existsAndCopy = (extention,dirname,basename,foldername,callback)->
         if stats
           if stats.isDirectory()
             console.log "Copy #{foldername}/#{basename}#{extention} to public/img"
-            fs.createReadStream(path.resolve(dirname,basename)+extention).pipe fs.createWriteStream(path.normalize("public/img/#{foldername}/#{basename}#{extention}"))
+            fs.createReadStream(path.resolve(dirname,basename)+extention).pipe fs.createWriteStream(path.normalize("public/img/#{foldername}/#{encodeURIComponent(basename)}#{extention}"))
             callback dest_path
           else
             callback ''

@@ -15,6 +15,11 @@ module.exports = (app) ->
   #app.get  '/feed/rss'   #@TODO
   app.get  '/',                    markdownEvent.index
   app.get  '/:folder', (req,res,next)->
-    folderEvent.showList(req,res) if typer.isFolder(path.resolve(root,req.params.folder))
-    markdownEvent.showRoute(req,res) if typer.isMarkdown(path.resolve(root,req.params.folder+'.md'))
+    if typer.isFolder(path.resolve(root,req.params.folder))
+      folderEvent.showList(req,res)
+    else if typer.isMarkdown(path.resolve(root,req.params.folder+'.md'))
+      markdownEvent.showRoute(req,res)
+    else
+      res.send '404 Not Found.'
+
   app.get  '/:folder/:filename', markdownEvent.show

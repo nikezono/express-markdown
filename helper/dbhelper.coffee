@@ -23,9 +23,11 @@ exports.dbhelper = (app) ->
 
   getList: (foldername,callback)->
     results = new Object
+    console.log foldername
     async.parallel [(cb)->
       Folder.findOne {title:foldername},(err,folder)->
         results.folder = folder
+        console.log folder
         Markdown.find {folder:folder.id},(err,mds)->
           results.markdowns = mds
           cb(null)

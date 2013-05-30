@@ -11,7 +11,5 @@
            			 hoge.md # get "/Works/hoge"
 
 ##@TODO
-* リファクタリング
-* routesをリファクタリングして404追加
 * RSS
 * pjax
