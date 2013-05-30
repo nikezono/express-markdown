@@ -6,6 +6,7 @@ exports.folderEvent = (app)->
 
   showList: (req,res)->
     dbhelper.getList req.params.folder, (folder,markdowns,nav)->
+      res.send '500 No Contents' unless markdowns
       res.render 'list',
         title: app_name
         folder:folder

@@ -5,6 +5,7 @@ exports.markdownEvent = (app)->
 
   index: (req,res)->
     dbhelper.getArticle 'root',null, (markdown,nav)->
+      res.send '500 No Contents' unless markdown
       markdown.meta.views += 1
       markdown.save()
       res.render 'index',
@@ -16,7 +17,8 @@ exports.markdownEvent = (app)->
 
   show: (req,res)->
     dbhelper.getArticle req.params.folder,req.params.filename,(markdown,nav)->
-      markdown.meta.vies += 1
+      res.send '500 No Contents' unless markdown
+      markdown.meta.views += 1
       markdown.save()
       res.render 'index',
         title: app_name
@@ -26,7 +28,8 @@ exports.markdownEvent = (app)->
 
   showRoute: (req,res)->
     dbhelper.getArticle 'root',req.params.folder,(markdown,nav)->
-      markdown.meta.vies += 1
+      res.send '500 No Contents' unless markdown
+      markdown.meta.views += 1
       markdown.save()
       res.render 'index',
         title: app_name
