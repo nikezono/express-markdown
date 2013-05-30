@@ -62,10 +62,13 @@ var app = require(path.resolve('config', 'app'))
 
 // Directory Watcher
 var diupdater = require(path.resolve('lib','diupdater')).diupdater(app);
-
+var dbcleaner = require(path.resolve('lib','dbcleaner')).dbcleaner(app);
 // Cluster Server
 if (cluster.isMaster) {
 
+  setTimeout(function(){
+    dbcleaner.remove(process.env.WATCH_DIR);
+  },4000); // サーバ起動後にremover
   diupdater.watch(process.env.WATCH_DIR);
 
   console.log('==', 'Express has left the station on', port, 'for', env);

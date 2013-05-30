@@ -16,7 +16,7 @@ exports.dbhelper = (app) ->
         ,(err,markdown)->
           cb(null,markdown)
     ,(cb)->
-      typer.sliceMarkdownAndFolder fs.readdirSync(root),(nav)->
+      typer.sliceMarkdownAndFolder root,fs.readdirSync(root),(nav)->
         cb(null,nav)
     ],(err,results)->
       callback results[0],results[1]
@@ -30,7 +30,7 @@ exports.dbhelper = (app) ->
           results.markdowns = mds
           cb(null)
     ,(cb)->
-      typer.sliceMarkdownAndFolder fs.readdirSync(root),(nav)->
+      typer.sliceMarkdownAndFolder root,fs.readdirSync(root),(nav)->
         results.nav = nav
         cb(null)
     ],(err)->

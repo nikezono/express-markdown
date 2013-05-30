@@ -31,7 +31,7 @@ isImage = (target_path)->
     return false
 
 # 与えられたArrayからmarkdownとfolder以外をpopする
-sliceMarkdownAndFolder = (array,callback)->
+sliceMarkdownAndFolder = (root,array,callback)->
   res = []
   async.forEach array, (el,cb)->
     res.push path.basename(el,'.md') if isMarkdown(path.resolve(root,el)) and path.basename(el,'.md') isnt 'index'

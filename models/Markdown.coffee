@@ -6,6 +6,7 @@
 @thumbnail   [String]   サムネイル(アドレス)
 @updated     [Date]     更新日時
 @created     [Date]     作成日時
+@checked     [Date]     ファイルが存在するかチェックされた日時
 @meta
   @views     閲覧回数
 ###
@@ -21,6 +22,7 @@ MarkdownSchema = new Mongo.Schema
   thumbnail: { type: String, default: '/img/default.jpg'}
   created: { type: Date, default: Date.now() }
   updated: { type: Date, default: Date.now() }
+  checked: { type:Date }
   meta:
     views: {type: Number, default: 0}
 
