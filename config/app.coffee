@@ -25,6 +25,7 @@ app.configure ->
   app.set 'models', require.all path.resolve 'models'
   app.set 'helper', require.all path.resolve 'helper'
   app.set "app_name", process.env.APP_NAME || 'express-markdown'
+  app.set "db_name", app.get("app_name").replace(/./g,'_')
   app.set "watch_dir", process.env.WATCH_DIR || 'blog_sample' #Config Directory (ex:Dropbox/blog)
   app.use express.favicon path.resolve 'public', 'favicon.ico'
   app.use express.logger("dev")
@@ -38,9 +39,9 @@ routes = require path.resolve 'config','routes'
 routes app
 
 if process.env.NODE_ENV is 'production'
-  mongoose.connect 'mongodb://localhost/express-markdown'
+  mongoose.connect "mongodb://localhost/#{app.get('db_name')}"
 else
-  mongoose.connect 'mongodb://localhost/express-markdown-dev'
+  mongoose.connect "mongodb://localhost/#{app.get('db_name')}-dev"
 
 app.configure "development", ->
   app.use express.errorHandler()

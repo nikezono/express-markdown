@@ -40,8 +40,8 @@ if (argv.h) {
   console.log('  -f "fork"       process concurrency nums ('+cpus+' default)');
   console.log('  -e "env"        set application environment (development default)');
   console.log('  -m "interval"   report memory usage info (5 default)');
-  console.log('  -w "watch"      set watch dirrectory (./blog_sample default)');
-  console.log('  -a "appname"    set application name("express-markdown" default');
+  console.log('  -w "watch"      set watch dirrectory. External Path is required. (./blog_sample default)');
+  console.log('  -a "appname"    set application&database name("express-markdown" default');
   console.log('  -h              show this message');
   process.exit(1);
 }
